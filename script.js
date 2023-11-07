@@ -8,10 +8,27 @@ let btn= document.getElementById("btn");
 //     alert("here is the " + name +  " my name" );
 // })
 var textInput=document.querySelector(".text-area");
-var inputBox=document.querySelector(".div-two");
+var outputBox=document.querySelector(".div-two");
+var serverUrl="https://api.funtranslations.com/translate/minion.json";
+
+function getTranslation(input){
+    var output=serverUrl + "?" + "text=" +input;
+    console.log(output);
+    return output;
+}
 
 function clickHandler(){
-     inputBox.innerText=  textInput.value+ " This is translated value " ;
+     var inputText= textInput.value;
+
+     fetch(getTranslation(inputText))
+     .then(response => response.json())
+     .then(json => {
+        var translateText=json.contents.translated;
+        outputBox.innerText=translateText;
+     }).catch((e) =>{
+        console.log(e);
+        alert("errorwhile fetching try after some time");
+     })
 }
 
 btn.addEventListener("click",clickHandler);
@@ -23,5 +40,7 @@ btn.addEventListener("click",clickHandler);
 
 
 
-btn.addEventListener("click",divHandler);
+
+
+
 
